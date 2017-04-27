@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
- *@deprecated  文章分类管理
+ *@despection  文章分类管理
  *@author 贤云
  *
  **/
@@ -27,7 +29,7 @@ public class ArticleSortController extends BaseController {
 	@Autowired
 	private IArticleSortService articleSortService;
 	/**
-	 * @deprecated 初始化访问页面
+	 * @despection 初始化访问页面
 	 * @author 贤云
 	 * @qq 799078779
 	 * @return
@@ -38,7 +40,7 @@ public class ArticleSortController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  获取json数据集
+	 *@despection  获取json数据集
 	 * @author 贤云
 	 * @qq 799078779
 	 * @return
@@ -63,7 +65,7 @@ public class ArticleSortController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  新增页面初始化
+	 *@despection  新增页面初始化
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param map
@@ -71,11 +73,13 @@ public class ArticleSortController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap map) {
+		List<ArticleSort> parentList=articleSortService.findAll();
+		map.addAttribute("parentList",parentList);
 		return "admin/article/sort/form";
 	}
 
 	/**
-	 *@deprecated  编辑页面初始化
+	 *@despection  编辑页面初始化
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param id
@@ -90,7 +94,7 @@ public class ArticleSortController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  新增或者编辑文章保存
+	 *@despection  新增或者编辑文章保存
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param map
@@ -108,7 +112,7 @@ public class ArticleSortController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  根据文章id删除文章信息
+	 *@despection  根据文章id删除文章信息
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param id

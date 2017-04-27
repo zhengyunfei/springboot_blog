@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *@deprecated  文章管理
+ *@despection  文章管理
  *@author 贤云
  *
  **/
@@ -37,7 +37,7 @@ public class ArticleController extends BaseController {
 	@Autowired
 	private IArticleSortService articleSortService;
 	/**
-	 * @deprecated 初始化访问页面
+	 * @despection 初始化访问页面
 	 * @author 贤云
 	 * @qq 799078779
 	 * @return
@@ -48,7 +48,7 @@ public class ArticleController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  获取json数据集
+	 *@despection  获取json数据集
 	 * @author 贤云
 	 * @qq 799078779
 	 * @return
@@ -72,7 +72,7 @@ public class ArticleController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  新增页面初始化
+	 *@despection  新增页面初始化
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param map
@@ -86,7 +86,7 @@ public class ArticleController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  编辑页面初始化
+	 *@despection  编辑页面初始化
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param id
@@ -103,7 +103,7 @@ public class ArticleController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  新增或者编辑文章保存
+	 *@despection  新增或者编辑文章保存
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param map
@@ -121,7 +121,7 @@ public class ArticleController extends BaseController {
 	}
 
 	/**
-	 *@deprecated  根据文章id删除文章信息
+	 *@despection  根据文章id删除文章信息
 	 * @author 贤云
 	 * @qq 799078779
 	 * @param id

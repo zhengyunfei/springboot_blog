@@ -37,7 +37,17 @@
                     <div class="ibox-content">
                         <form class="form-horizontal m-t" id="frm" method="post" action="">
                         	<input type="hidden" id="id" name="id" value="${articleSort.id}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">上级节点：</label>
+                                <div class="col-sm-9">
+                                    <select id="pid" name="pid" class="form-control" type="text" value="${articleSort.pid}">
+                                        <#list parentList as p>
+                                            <option value="${p.id}">${p.title}</option>
+                                        </#list>
 
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">名称：</label>
                                 <div class="col-sm-9">

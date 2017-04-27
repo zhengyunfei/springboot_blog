@@ -30,7 +30,10 @@ public class ArticleSort extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
 	private Integer id;
-
+	/**
+	 * 父节点id
+	 */
+	private String pid;
 	/**
 	 * 分类名称
 	 */
@@ -60,7 +63,13 @@ public class ArticleSort extends BaseEntity{
 	private Date updateTime;
 
 
+	public String getPid() {
+		return pid;
+	}
 
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 
 	public Integer getId() {
 		return id;
