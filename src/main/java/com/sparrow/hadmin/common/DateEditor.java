@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
- * @author 贤人
+ * @author 贤云
  * @blog http://zhengyunfei.iteye.com/
  * @qq 799078779
  */
