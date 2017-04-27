@@ -30,6 +30,7 @@ import java.text.MessageFormat;
 /**
  * Print a user's repositories
  * 贤云
+ * 获取github上的所有项目
  */
 public class PrintRepos {
 
