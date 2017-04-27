@@ -32,6 +32,7 @@ import java.util.Date;
 
 /**
  * Page commits in blocks of 25 and print author and date
+ * 解决git 一直pushing的问题
  */
 public class PageCommits {
 
