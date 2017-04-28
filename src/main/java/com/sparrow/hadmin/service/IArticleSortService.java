@@ -2,6 +2,9 @@ package com.sparrow.hadmin.service;
 
 import com.sparrow.hadmin.entity.ArticleSort;
 import com.sparrow.hadmin.service.support.IBaseService;
+import com.sparrow.hadmin.vo.ArticleSortVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,4 +24,7 @@ public interface IArticleSortService extends IBaseService<ArticleSort, Integer> 
 
     void delete(Integer id);
 
+    List<ArticleSort> findAllPage(int page,int size);
+
+	List<ArticleSortVo> findByPid(String pid);
 }

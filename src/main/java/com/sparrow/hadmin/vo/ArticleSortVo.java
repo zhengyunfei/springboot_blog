@@ -53,7 +53,50 @@ public class ArticleSortVo extends BaseEntity{
 	 */
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+	/**
+	 * 父节点id
+	 */
+	private Integer pid;
+	/**
+	 * 节点深度
+	 */
+	private Integer _label;
+	/**
+	 * 是否有子节点
+	 */
+	private boolean isLeaf;
+	public Integer getPid() {
+		return pid;
+	}
 
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+
+	public Integer get_label() {
+		return _label;
+	}
+
+	public void set_label(Integer _label) {
+		this._label = _label;
+	}
+
+	public boolean isLeaf() {
+		return isLeaf;
+	}
+
+	public void setLeaf(boolean leaf) {
+		isLeaf = leaf;
+	}
+    private List<ArticleSortVo> children;
+
+	public List<ArticleSortVo> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<ArticleSortVo> children) {
+		this.children = children;
+	}
 
 	private List<Article> articleList=new ArrayList<>();
 	public List<Article> getArticleList() {
@@ -119,6 +162,8 @@ public class ArticleSortVo extends BaseEntity{
 		vo.setCreateTime(entity.getCreateTime());
 		vo.setUpdateTime(entity.getUpdateTime());
 		vo.setStatus(entity.getStatus());
+		vo.setPid(entity.getPid());
+		vo.set_label(entity.get_label());
 		return vo;
 	}
 }

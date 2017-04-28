@@ -1,11 +1,13 @@
 package com.sparrow.hadmin.controller.admin.article;
 
+import com.alibaba.fastjson.JSON;
 import com.sparrow.hadmin.common.JsonResult;
 import com.sparrow.hadmin.controller.BaseController;
 import com.sparrow.hadmin.entity.ArticleSort;
 import com.sparrow.hadmin.service.IArticleSortService;
 import com.sparrow.hadmin.service.specification.SimpleSpecificationBuilder;
 import com.sparrow.hadmin.service.specification.SpecificationOperator.Operator;
+import com.sparrow.hadmin.vo.ArticleSortVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *@despection  文章分类管理
@@ -73,11 +78,69 @@ public class ArticleSortController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap map) {
-		List<ArticleSort> parentList=articleSortService.findAll();
-		map.addAttribute("parentList",parentList);
 		return "admin/article/sort/form";
 	}
 
+	/**
+	 * 动态获取下拉树形结构的json数据
+	 * 贤云
+	 * @return
+	 */
+	@RequestMapping(value = "/tree/getJsonTree")
+	@ResponseBody
+	public String tree(){
+		List<ArticleSort> parentList=articleSortService.findAll();
+		String result=JSON.toJSONString(parentList);
+		return result;
+	}
+	/**
+	 * 动态获取下拉树形结构的json数据
+	 * 贤云
+	 * @return
+	 */
+	@RequestMapping(value = "/tree/getJsonTreeGrid")
+	@ResponseBody
+	public String tree(String page, String size){
+		int pageNow=0;
+		int pageSize=20;
+		if(!org.springframework.util.StringUtils.isEmpty(page)){
+			pageNow=Integer.parseInt(page);
+		}
+		if(!org.springframework.util.StringUtils.isEmpty(page)){
+			pageSize=Integer.parseInt(size);
+		}
+		List<ArticleSortVo> list=new ArrayList<>();
+		List<ArticleSort> parentList=articleSortService.findAllPage(pageNow,pageSize);
+		for(int i=0;i<parentList.size();i++){
+			ArticleSort articleSort=parentList.get(i);
+			ArticleSortVo vo=ArticleSortVo.entityToBo(articleSort);
+			list.add(vo);
+		}
+		setChildren(list);
+		long total=articleSortService.count();
+		Map<String,Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("Rows",list);
+		jsonMap.put("Total",total);
+		String result=JSON.toJSONString(jsonMap);
+		return result;
+	}
+
+	/**
+	 * 递归下级
+	 */
+	public void setChildren(List<ArticleSortVo> list){
+		ArticleSortVo obj =null;
+		List<ArticleSortVo> childrenList=null ;
+		for(ArticleSortVo bo:list){
+			obj = new ArticleSortVo();
+			obj.setPid(bo.getId());
+			childrenList = articleSortService.findByPid(bo.getId()+"");
+			if(!childrenList.isEmpty()){
+				bo.setChildren(childrenList);
+				setChildren(childrenList);
+			}
+		}
+	}
 	/**
 	 *@despection  编辑页面初始化
 	 * @author 贤云

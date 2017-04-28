@@ -11,7 +11,6 @@
     <link href="${ctx!}/hadmin/css/font-awesome.css" rel="stylesheet">
     <link href="${ctx!}/hadmin/css/animate.css" rel="stylesheet">
     <link href="${ctx!}/hadmin/css/style.css?v=${version}" rel="stylesheet">
-
 </head>
 
 <body class="gray-bg">
@@ -40,12 +39,9 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">上级节点：</label>
                                 <div class="col-sm-9">
-                                    <select id="pid" name="pid" class="form-control" type="text" value="${articleSort.pid}">
-                                        <#list parentList as p>
-                                            <option value="${p.id}">${p.title}</option>
-                                        </#list>
-
-                                    </select>
+                                    <input id="pid" name="pid" style="width: 100%" class="mini-treeselect" url="${ctx!}/admin/article/sort/tree/getJsonTree" valueField="id"
+                                           allowInput="true"
+                                           showRadioButton="true" showFolderCheckBox="false" textField="title"  parentField="pid" multiSelect="false"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -83,15 +79,20 @@
 
     </div>
     <!-- 全局js -->
-    <#include "/admin/common/common.ftl">
+    <!-- 全局js -->
+    <script src="${ctx!}/hadmin/js/jquery.min.js"></script>
+    <script src="${ctx!}/hadmin/js/bootstrap.min.js"></script>
+    <script src="${ctx!}/hadmin/js/content.js?v=${version!}"></script>
+    <script src="${ctx!}/hadmin/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${ctx!}/hadmin/js/plugins/validate/messages_zh.min.js"></script>
+    <script src="${ctx!}/hadmin/js/plugins/layer/layer.min.js"></script>
+    <script src="${ctx!}/hadmin/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="${ctx!}/hadmin/js/plugins/zTree/jquery.ztree.all.min.js"></script>
+    <link href="http://www.miniui.com/demo/demo.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.miniui.com/scripts/boot.js" type="text/javascript"></script>
+
     <script type="text/javascript">
     $(document).ready(function () {
-	  	//外部js调用
-	  /*  laydate({
-	        elem: '#birthday', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-	        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-	    });*/
-
 	    $("#frm").validate({
     	    rules: {
     	    	title: {

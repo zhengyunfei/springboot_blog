@@ -5,10 +5,17 @@ import com.sparrow.hadmin.dao.support.IBaseDao;
 import com.sparrow.hadmin.entity.ArticleSort;
 import com.sparrow.hadmin.service.IArticleSortService;
 import com.sparrow.hadmin.service.support.impl.BaseServiceImpl;
+import com.sparrow.hadmin.vo.ArticleSortVo;
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +27,9 @@ import java.util.Date;
  */
 @Service
 public class ArticleSortServiceImpl extends BaseServiceImpl<ArticleSort, Integer> implements IArticleSortService {
+	@Autowired
+	@PersistenceContext
+	private EntityManager entityManager;
 	@Autowired
 	private IArticleSortDao articleSortDao;
 	@Override
@@ -49,6 +59,28 @@ public class ArticleSortServiceImpl extends BaseServiceImpl<ArticleSort, Integer
 		super.delete(id);
 	}
 
+	@Override
+	public List<ArticleSort> findAllPage(int page,int size) {
+		String sql="SELECT id,create_time as createTime,description,status,title,update_time as updateTime,pid,_label FROM tb_article_sort WHERE pid =999999 limit "+page+","+size+"";
+		List<ArticleSort> list ;
+				Query nativeQuery= entityManager
+				.createNativeQuery(sql);
+				nativeQuery.unwrap(SQLQuery.class).setResultTransformer(Transformers.aliasToBean(ArticleSort.class));
+				list=nativeQuery.getResultList();
+
+		return list;
+	}
+
+	@Override
+	public List<ArticleSortVo> findByPid(String pid) {
+		String sql="SELECT id,create_time as createTime,description,status,title,update_time as updateTime,pid,_label FROM tb_article_sort where pid="+pid;
+		List<ArticleSortVo> list ;
+		Query nativeQuery= entityManager
+				.createNativeQuery(sql);
+		nativeQuery.unwrap(SQLQuery.class).setResultTransformer(Transformers.aliasToBean(ArticleSortVo.class));
+		list=nativeQuery.getResultList();
+		return list;
+	}
 
 
 }

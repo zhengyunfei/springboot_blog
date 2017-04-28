@@ -33,7 +33,11 @@ public class ArticleSort extends BaseEntity{
 	/**
 	 * 父节点id
 	 */
-	private String pid;
+	private Integer pid;
+	/**
+	 * 节点深度
+	 */
+	private Integer _label;
 	/**
 	 * 分类名称
 	 */
@@ -62,13 +66,20 @@ public class ArticleSort extends BaseEntity{
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
-
-	public String getPid() {
+	public Integer getPid() {
 		return pid;
 	}
 
-	public void setPid(String pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
+	}
+
+	public Integer get_label() {
+		return _label;
+	}
+
+	public void set_label(Integer _label) {
+		this._label = _label;
 	}
 
 	public Integer getId() {

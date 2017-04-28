@@ -34,10 +34,20 @@
 		                    <div class="col-sm-12">
 		                        <!-- Example Card View -->
 		                        <div class="example-wrap">
-		                            <div class="example">
+		                            <#--<div class="example">
 		                            	<table id="table_list"></table>
-		                            </div>
-		                        </div>
+		                            </div>-->
+										<div id="treeGrid"></div>
+                                   <#--     <div id="treegrid1" class="mini-pagertree" style="width:700px;height:280px;"
+                                             url="${ctx!}/admin/article/sort/tree/getJsonTreeGrid" showTreeIcon="true"
+                                             treeColumn="title" idField="id" parentField="pid" resultAsTree="true" pageSize="20"
+                                             allowResize="true" expandOnLoad="true"
+                                        >-->
+
+                                        </div>
+
+
+									</div>
 		                        <!-- End Example Card View -->
 		                    </div>
 	                    </div>
@@ -49,9 +59,59 @@
 
     <!-- 全局js -->
 	<#include "/admin/common/common.ftl">
+    <link href="http://www.ligerui.com/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.ligerui.com/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="http://www.ligerui.com/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <!-- Page-Level Scripts -->
     <script>
+        var manager;
+        function  initGrid(data) {
+             manager = $("#treeGrid").ligerGrid({
+                        columns: [
+                            { display: '标示', name: 'id', width: 250, type: 'int', align: 'left' },
+                            { display: '分类名称', name: 'title', width: 250, align: 'left' },
+                            { display: '描述', name: 'description', width: 250, align: 'left' }
+                            ,{
+                                display: "创建时间",
+                                name: "createTime"
+                            }, {
+                                display: "操作",
+                                name: "empty",
+                                render: function ( row) {
+                                    var operateHtml = '<@shiro.hasPermission name="system:article:edit"> <button class="btn btn-primary btn-xs" type="button" onclick="edit(\''+ row.id+'\')"><i class="fa fa-edit"></i>&nbsp;修改</button> &nbsp;</@shiro.hasPermission>';
+                                    operateHtml = operateHtml + '<@shiro.hasPermission name="system:article:deleteBatch"><button class="btn btn-danger btn-xs" type="button" onclick="del(\''+ row.id+'\')"><i class="fa fa-remove"></i>&nbsp;删除</button> &nbsp;</@shiro.hasPermission>';
+                                    return operateHtml;
+                                }
+                            }
+                        ], width: '100%', pageSizeOptions: [5, 10, 15, 20], height: '97%',
+                        data: data, tree: { columnName: 'id' },pageSize:20,rownumbers:true,pageParmName:"curNo",pagesizeParmName:"curSize",alternatingRow: false
+                    }
+            );
+        }
+
         $(document).ready(function () {
+            var url="${ctx!}/admin/article/sort/tree/getJsonTreeGrid";
+           getData(url);
+
+
+        });
+		function getData(url){
+            var data;
+            $.ajax({
+				url:url,
+				dataType:'json',
+				method:'post',
+				success:function(res){
+                    data=res;
+                    console.log(data);
+                    initGrid(eval("("+data+")"));
+				},error:function(){
+
+				}
+			});
+			return data;
+		}
+       /* $(document).ready(function () {
         	//初始化表格,动态从服务器加载数据
 			$("#table_list").bootstrapTable({
 			    //使用get请求到服务器获取数据
@@ -113,7 +173,7 @@
                     }
 			    }]
 			});
-        });
+        });*/
 
         function edit(id){
         	layer.open({
