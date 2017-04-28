@@ -8,6 +8,8 @@ import com.sparrow.hadmin.service.IArticleSortService;
 import com.sparrow.hadmin.service.specification.SimpleSpecificationBuilder;
 import com.sparrow.hadmin.service.specification.SpecificationOperator.Operator;
 import com.sparrow.hadmin.vo.ArticleSortVo;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -100,31 +102,43 @@ public class ArticleSortController extends BaseController {
 	 */
 	@RequestMapping(value = "/tree/getJsonTreeGrid")
 	@ResponseBody
-	public String tree(String page, String size){
+	public JSONObject tree(String curNo, String curSize){
 		int pageNow=0;
 		int pageSize=20;
-		if(!org.springframework.util.StringUtils.isEmpty(page)){
-			pageNow=Integer.parseInt(page);
+		if(!org.springframework.util.StringUtils.isEmpty(curNo)){
+			pageNow=Integer.parseInt(curNo);
 		}
-		if(!org.springframework.util.StringUtils.isEmpty(page)){
-			pageSize=Integer.parseInt(size);
+		if(!org.springframework.util.StringUtils.isEmpty(curSize)){
+			pageSize=Integer.parseInt(curSize);
 		}
 		List<ArticleSortVo> list=new ArrayList<>();
-		List<ArticleSort> parentList=articleSortService.findAllPage(pageNow,pageSize);
+		List<ArticleSort> parentList=articleSortService.findAllPage((pageNow-1)*pageSize,pageSize);
 		for(int i=0;i<parentList.size();i++){
 			ArticleSort articleSort=parentList.get(i);
 			ArticleSortVo vo=ArticleSortVo.entityToBo(articleSort);
 			list.add(vo);
 		}
 		setChildren(list);
-		long total=articleSortService.count();
+		long total=articleSortService.findByPid("999999").size();
 		Map<String,Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("Rows",list);
 		jsonMap.put("Total",total);
-		String result=JSON.toJSONString(jsonMap);
-		return result;
+		String result=JSONObject.fromObject(jsonMap).toString();
+		JSONObject jsonObject=StringToJSONOBject(result);
+		return jsonObject;
 	}
-
+	public static JSONObject StringToJSONOBject(String str) {
+		if (str == null || str.trim().length() == 0) {
+			return null;
+		}
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = JSONObject.fromObject(str);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject;
+	}
 	/**
 	 * 递归下级
 	 */

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,12 +75,18 @@ public class ArticleSortServiceImpl extends BaseServiceImpl<ArticleSort, Integer
 	@Override
 	public List<ArticleSortVo> findByPid(String pid) {
 		String sql="SELECT id,create_time as createTime,description,status,title,update_time as updateTime,pid,_label FROM tb_article_sort where pid="+pid;
-		List<ArticleSortVo> list ;
+		List<ArticleSortVo> result=new ArrayList<>();
+		List<ArticleSort> list ;
 		Query nativeQuery= entityManager
 				.createNativeQuery(sql);
-		nativeQuery.unwrap(SQLQuery.class).setResultTransformer(Transformers.aliasToBean(ArticleSortVo.class));
+		nativeQuery.unwrap(SQLQuery.class).setResultTransformer(Transformers.aliasToBean(ArticleSort.class));
 		list=nativeQuery.getResultList();
-		return list;
+		for(int i=0;i<list.size();i++){
+			ArticleSort entity= list.get(i);
+			ArticleSortVo bo=ArticleSortVo.entityToBo(entity);
+			result.add(bo);
+		}
+		return result;
 	}
 
 

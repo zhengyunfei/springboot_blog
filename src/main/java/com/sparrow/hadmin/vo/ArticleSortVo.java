@@ -1,12 +1,11 @@
 package com.sparrow.hadmin.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.sparrow.hadmin.entity.Article;
 import com.sparrow.hadmin.entity.ArticleSort;
 import com.sparrow.hadmin.entity.support.BaseEntity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,14 +44,12 @@ public class ArticleSortVo extends BaseEntity{
 	/**
 	 * 创建时间
 	 */
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	private Date createTime;
+	private String createTime;
 
 	/**
 	 * 更新时间
 	 */
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
+	private String updateTime;
 	/**
 	 * 父节点id
 	 */
@@ -139,19 +136,19 @@ public class ArticleSortVo extends BaseEntity{
 		this.status = status;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public Date getUpdateTime() {
+	public String getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 	public static ArticleSortVo entityToBo(ArticleSort entity){
@@ -159,8 +156,9 @@ public class ArticleSortVo extends BaseEntity{
 		vo.setId(entity.getId());
 		vo.setTitle(entity.getTitle());
 		vo.setDescription(entity.getDescription());
-		vo.setCreateTime(entity.getCreateTime());
-		vo.setUpdateTime(entity.getUpdateTime());
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		vo.setCreateTime(simpleDateFormat.format(entity.getCreateTime()));
+		vo.setUpdateTime(simpleDateFormat.format(entity.getUpdateTime()));
 		vo.setStatus(entity.getStatus());
 		vo.setPid(entity.getPid());
 		vo.set_label(entity.get_label());

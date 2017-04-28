@@ -73,8 +73,9 @@
                             { display: '描述', name: 'description', width: 250, align: 'left' }
                             ,{
                                 display: "创建时间",
-                                name: "createTime"
-                            }, {
+                                name: "createTime",
+                                type: "date",options:{format:"yyyy-mm-dd HH:mm:ss"}
+                             }, {
                                 display: "操作",
                                 name: "empty",
                                 render: function ( row) {
@@ -83,15 +84,16 @@
                                     return operateHtml;
                                 }
                             }
-                        ], width: '100%', pageSizeOptions: [5, 10, 15, 20], height: '97%',
-                        data: data, tree: { columnName: 'id' },pageSize:20,rownumbers:true,pageParmName:"curNo",pagesizeParmName:"curSize",alternatingRow: false
+                        ], width: '100%', pageSizeOptions: [5, 10, 15, 20,30,50,100,200], height: '97%',
+                        url: data, tree: { columnName: 'id' },pageSize:20,rownumbers:true,pageParmName:"curNo",pagesizeParmName:"curSize",alternatingRow: true
                     }
             );
         }
 
         $(document).ready(function () {
             var url="${ctx!}/admin/article/sort/tree/getJsonTreeGrid";
-           getData(url);
+             //getData(url);
+            initGrid(url);
 
 
         });
