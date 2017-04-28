@@ -1,0 +1,3 @@
+*.js linguist-language=java,springboot
+*.css linguist-language=java,springboot
+*.html linguist-language=java,springboot
