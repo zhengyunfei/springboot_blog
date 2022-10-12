@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <shiro.version>1.2.4</shiro.version>
+        <shiro.version>1.10.0</shiro.version>
         <java.version>1.7</java.version>
     </properties>
 
